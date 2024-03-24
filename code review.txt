@@ -1,0 +1,95 @@
+CODE REVIEW(BEST PRACTICES AND CODING STANDARDS) 
+
+ 
+
+Optimizing persistent disk performance: Unattached persistent disks would be one of the Google cloud storage best practices that can save a lot from your monthly bill. 
+
+Step 1: Open the list of projects from Google Cloud Engine. 
+
+Step 2: Find out the disks which are unattached to any instance 
+
+Step 3: Get the label key/value of unattached disks. 
+
+Step 4: Finally, execute the “delete” command on the selected disk. 
+
+These disks can only cost you money if these are still running even the engine is inactive. So, you need to continuously check for unattached disks in your GCP infrastructure to avoid unwanted expenses. 
+
+Logging and Versioning of cloud storage buckets: It helps to maintain, access and change logs for storage buckets, it can be very helpful during the inspection of security incidents. Versioning enables you to keep multiple variants of an object in the same storage bucket.  
+
+Stackdriver logging and monitoring: Enabling the effective configuration of Stackdriver logging and monitoring is one of the best practices of the Google Cloud Platform to monitor the uptime and performance of GCP projects and their resources. 
+
+Limiting the use of Cloud Identity and Access Management(IAM) Primitive Roles: it is recommended to grant predefined roles to identities whenever possible, since they provide more granular access as compared to primitive roles. The use of primitive roles should be limited to few cases as given below 
+
+In case of projects working under small teams 
+
+When there is a requirement of changing the permissions of a project by a member 
+
+When there is a requirement to allow broader permissions for a project 
+
+When the platform won’t provide a role that includes desired permissions. 
+
+ 
+
+Delete the persistent disk snapshot: The persistent disk snapshots are created for the purpose of backup of disks in case of data loss. But, it will cost a lot of money if you haven’t properly monitored these snapshots. Effective management of these snapshots can be one of GCP best practices which can help you work effortlessly. You can set a standard in your organization for how many of these snapshots should be retained per Compute Engine Virtual Machine. Also, note that recovery can occur from the most recent snapshots most of the time. 
+
+ 
+
+Use Checklists:  
+
+ 
+
+Readability: Are there any redundant comments in the code? 
+
+Security: Does the code expose the system to a cyber attack? 
+
+Test coverage: Is there a need to test more cases? 
+
+Architecture: Does the code use encapsulation and modularization to achieve separation of concerns? 
+
+Reusability: Does the code use reusable components, functions, and services? 
+
+IN v/s EXISTS: IN operator is more costly than EXISTS in terms of scans especially when the result of the subquery is a large dataset. So we should try to use EXISTS rather than using IN for fetching results with a subquery. 
+
+Avoiding Loops: The loops can be avoided because it requires running same query many times.Instead ,it can be good to opt for bulk insert and updates. 
+
+Inner join and where clause: We should use inner join for merging two or more tables rather than using the WHERE clause. WHERE clause creates the CROSS join/ CARTESIAN product for merging tables. CARTESIAN product of two tables takes a lot of time. 
+
+ Indexing: An index is a data structure used to provide quick access to the table based on a search key. It helps in minimizing the disk access to fetch the rows from the database. 
+
+ Selection: Selection of the rows that are required instead of selecting all the rows should be followed. SELECT * is highly inefficient as it scans the entire database. 
+
+ Avoid repeatedly transforming data through SQL queries: Best practice: If you are using SQL to perform ETL operations, avoid situations where you are repeatedly transforming the same data. 
+
+ Avoid multiple evaluations of the same Common Table Expressions(CTEs): Best practice: Use procedural language, variables, temporary tables, and automatically expiring tables to persist calculations and use them later in the query. 
+
+Avoid more than 3 Joins in the Big Query: If a query is having more than 3 joins then try to break the query to multiple queries. 
+
+Avoid more than 1000 Insert/Update/Delete Statement on a table: Google Big Query has quotas and limits for DML statements which is getting increased over time. As of now the limit of combined INSERT, UPDATE, DELETE and MERGE statements per day per table is 1,000. 
+
+ 
+
+ 
+
+Please refer below link for more best practises. 
+
+https://towardsdatascience.com/14-ways-to-optimize-bigquery-sql-for-ferrari-speed-at-honda-cost-632ec705979 
+
+ 
+
+ 
+
+ 
+
+           
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
