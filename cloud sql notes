@@ -1,0 +1,155 @@
+Hello, and welcome back
+to our course on Google Cloud Concepts.
+We're going to continue our discussion
+on the core components of Google Cloud platform
+and how they fit together
+by now talking about how databases work on Google Cloud.
+And again, as a general reminder,
+we are again doing a high-level introduction to Google Cloud
+platform using an oversimplification of concepts.
+There is again, a lot of fine details
+we are not going over here for the main purpose of providing
+a beginner's frame of reference that will act
+as a springboard into more advanced topics down the road.
+So let's, once again,
+go back to our continuing example of the Spotify application
+on Google Cloud and this is again,
+the diagram we've referenced throughout this course
+and to recap so far, we've talked about
+a compute engine instance,
+being a virtual server
+that our Spotify application is hosted on.
+And this resource sits in a private network
+called a virtual private Cloud.
+For this lesson,
+we're not going to talk about the very far right item,
+which is our database.
+Now, before I go forward,
+I do want to point out that for the diagram
+I have the Cloud SQL servers listed there,
+however, Cloud SQL is not the only database option
+on Google Cloud.
+There were actually a pretty wide variety of different
+database options,
+depending on your own particular use case.
+For the purposes of this course,
+we're going to use Cloud SQL for our icon
+or for our reference.
+However, going forward, keep in mind,
+that there are other database options available.
+Again, depending on what exactly it is
+that you're trying to do. So let's
+talk about databases specifically for a second. What are
+databases, why do we care, and how do they relate
+into this big picture example of our application?
+Simply defined databases store data,
+but the type of data they store
+is often referred to as structured data.
+Now to imagine structured data,
+think of your typical spreadsheet like Microsoft Excel,
+Google Sheets, or other similar applications.
+This data is stored in a structured format
+and these databases are typically used
+for storing structured data, such as username and passwords,
+a song catalog in our Spotify example
+so you can look up where a particular song exists
+and maybe for an online commerce application,
+you'd want to use a database for your inventory
+in order to keep track of what actual products
+you have in stock.
+Now, I did want to pause for a second
+and note that in our diagrams,
+you may be noticing if we go back a couple slides here,
+that the different pieces of our application
+are split into separate components.
+So we have our server itself for the application,
+and then we have a separate database service,
+and then we have a separate Cloud storage service as
+well. Why exactly are we doing this?
+Why don't we just take the simple route
+and host the application in our database,
+and even our song storage on a single server itself?
+It would be a lot easier to do without having to manage
+different components connecting to each other.
+The primary reason that we separate our different components
+out is that separating our pieces out
+into different services,
+allow us to take full advantage of what the cloud offers
+and going back to our terminology from the first lesson,
+these are advantages such as fault tolerance,
+high availability, scalability, and elasticity.
+By comparison,
+if we hosted all of our different pieces of our application
+on a single individual server,
+it would not be as fault tolerant.
+It would not be highly available
+and it would not be as scalable or elastic as well.
+Now we're going to talk more about these different Cloud
+components being separated out and the advantages of that
+in the next lesson,
+however, I did want to point out that for this one
+and kind of think of it as a little bit of a teaser
+for the next lesson as well.
+So getting back to our databases,
+in our example of where you would use a database
+specifically in our Spotify scenario,
+think of 2 different things that you do
+when trying to get on the Spotify.
+Number 1,
+you have to log into it with a user account
+to verify that you are who you actually are
+and that you have permission to access
+whatever songs you want to do.
+The second thing is once you log in,
+you want to actually be able to find a song.
+Now to find a song,
+you need to look up information such as
+what artist sings the song, what album this song is on,
+and maybe some other categories as well.
+These are examples of structured data
+that are required to be able to look up
+what it is you're trying to look up.
+So again, going back to our diagram example again,
+kind of putting the pieces back together,
+you are accessing the Spotify application,
+which is hosted on a Compute Engine instance
+on your private virtual private cloud network.
+As you were logging into the Spotify website
+or Spotify mobile app,
+the application needs to look up your username and password
+combination to make sure that is correct
+and you do have permission to log on.
+And for that,
+it accesses the database of customer account information
+to verify that your login is correct.
+And then once you were on the Spotify application itself,
+you want to find a song
+which typically what that application is for
+the compute engine instance will then
+refer to a second database with a song catalog
+to look up the song that you're trying to look for,
+find that information in the song catalog database,
+and then deliver the song to you
+so you can go ahead and listen to it.
+So as a recap,
+you can think of databases on Google Cloud as storing data
+and specifically structured data format.
+Again, think of a typical spreadsheet.
+Some common uses of databases on Google Cloud,
+or just in general is login information,
+username and password combinations, song catalogs,
+to look up songs that you're looking for
+depending on your structure or how you're looking it up.
+And also for an e-commerce site inventory to verify
+that you actually have the product that it is
+you're trying to sell.
+That's going to go ahead and wrap up this lesson
+go ahead and mark it as complete.
+And in the next one,
+we are going to take a little bit of a side road
+to talk about some of the advantages of a cloud
+that we referenced a moment ago
+and why we separate our components out
+and why the cloud is a lot more
+than simply someone else's computer.
+And I'll see you then.
