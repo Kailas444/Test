@@ -1,0 +1,128 @@
+Window function 
+
+
+Rank() 
+
+Gives a rank to each row in partition based specified column or value 
+
+Dense_Rank() 
+
+Gives a rank to each row but doesn't skip rank value 
+
+Row_Number() 
+
+Gives a unique integer value to each row in a partition based on the order of the row 
+
+NTILE() 
+
+Divide partition of specified number of groups and gives group number of each rows 
+
+LAG() 
+
+Retrieves a value from previous  row in a partition based specified column or expression 
+
+LEAD() 
+
+Retrieves a value from subsequent row in partition based specified column or expression 
+
+NTH() 
+
+Retrieves a nth value in partition 
+
+Window function there are three types 
+
+Aggregate  
+
+ 
+
+ 
+
+Window functions are a powerful feature in SQL that allow you to perform calculations over a subset of rows, defined by a window or partition. Three common window functions in SQL are RANK, DENSE_RANK, and ROW_NUMBER. 
+
+ 
+
+The RANK function assigns a unique rank to each row within a partition based on the value of a specific column. Rows with the same values in that column receive the same rank, and the next rank value is skipped in such cases. 
+
+ 
+
+For example, we can use the RANK function to rank employees by their salary within each department: 
+
+ 
+
+SELECT department, name, salary, RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS rank 
+
+FROM employees; 
+
+ 
+
+department name salary rank 
+
+Marketing Alice 70000 1 
+
+Marketing Bob 65000 2 
+
+Sales Carol 90000 1 
+
+Sales Dave 75000 2 
+
+Sales Eve 70000 3 
+
+ 
+
+The DENSE_RANK function is similar to RANK, but it assigns consecutive rank values to rows with the same values in the specified column. This means that there are no gaps in the rank values. 
+
+ 
+
+For example, we can use the DENSE_RANK function to assign a rank to each department based on the total salary of employees within that department: 
+
+ 
+
+SELECT department, SUM(salary) AS total_salary, DENSE_RANK() OVER (ORDER BY SUM(salary) DESC) AS dense_rank 
+
+FROM employees 
+
+GROUP BY department; 
+
+ 
+
+department total_salary dense_rank 
+
+Sales 235000 1 
+
+Marketing 135000 2 
+
+ 
+
+ 
+
+The ROW_NUMBER function is used to assign a unique sequential number to each row within a partition. Unlike the RANK and DENSE_RANK functions, it does not take a column as an argument. 
+
+ 
+
+For example, we can use the ROW_NUMBER function to assign a unique number to each row in a table: 
+
+ 
+
+SELECT ROW_NUMBER() OVER (ORDER BY id) AS row_number, name, price 
+
+FROM products; 
+
+ 
+
+row_number name price 
+
+1 Apple 1.99 
+
+2 Banana 2.99 
+
+3 Orange 1.49 
+
+4 Mango 3.99 
+
+5 Pineapple 4.99 
+
+ 
+
+ 
+
+Knowing how to use these window functions is essential for creating accurate SQL queries and gaining insights from your
