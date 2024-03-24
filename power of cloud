@@ -1,0 +1,203 @@
+Hello, and welcome back to our course
+on Google Cloud concepts. For
+this lesson, we're going to go over a variety of scenarios
+that we simply like to call the power of the cloud.
+Now in the previous lesson on databases,
+I did a little bit of a teaser at the end
+mentioning that there is a very good reason why we separate
+out different components of our application,
+such as the compute and the database hosting
+portion of the application.
+And the main reason was is that doing so allows us
+to take advantage of what the cloud offers.
+Specifically fault tolerance, high availability,
+scalability, and elasticity.
+In this lesson, we're going to look at a couple
+of different examples with some scenarios that show us
+what it looks like when we are not able to take advantage
+of the cloud, and also when we are able to use the benefits
+that the cloud provides for us.
+So in our first example, we're going to look at a few
+different scenarios about challenges that we run into
+when we're not able to take advantage
+of the different kinds of benefits that cloud offers.
+So in our first example, we're
+going to have an on-premises single server application.
+And we're going to say that it's Spotify for this example,
+and is hosted on a single server in a US data center.
+So for our first scenario, for the Spotify application,
+it has over the course of a given day,
+averaging about 100,000 users
+on the application at the same time.
+However, at about the 5 o'clock hour,
+when everyone's waiting to go home,
+everyone wants to listen to music at the same time.
+Which means that the simultaneous user load
+on the server goes up quite drastically.
+In this example, we go from 100,000 to 500,000 users
+using the application at the same time.
+The problem though is that our server is simply not capable
+of handling this many number of users at the same time.
+And as a result, it crashes.
+Or maybe even a best case scenario,
+it just simply slows down.
+Now in the worst case scenario,
+where the server crashes from over utilization,
+where it can't handle that load, what's going to happen?
+Of course, everyone else's application is going to go down
+at the exact same time as well.
+So in this scenario, where a single server is not able
+to handle the load of the users going to it,
+and then it crashes which brings everyone else down as well.
+These are examples where the traditional on-premises model
+has difficulty being both fault-tolerant,
+in which a single server going down
+brings it down for everyone else.
+And it's having trouble scaling,
+which means that it is having trouble
+supporting the increased load
+when it has not been set up to do so.
+So let's take a closer look at this scenario here.
+How do companies typically deal with issues
+of being able to support a peak or max capacity of users?
+Well the typical solution to problems like these
+is to simply make a bigger server.
+Now by bigger server in this case,
+we're talking about adding additional CPUs
+or faster, CPUs, more memory, more storage.
+Basically, more computing power in this server
+to be able to support a peak number of users.
+The one problem with this though,
+is that yes, you may be able to support 500,000 users
+at the same time during your evening rush commute.
+However, you're not going to always
+be at that peak number of users.
+Rather, since you're only supporting,
+on average about 100,000 people
+throughout the course of the rest of the day,
+that's a lot of computing capacity that's wasted.
+And more importantly, that you had to pay for upfront,
+that you're not fully using every minute of the day.
+And in a scenario like this, this is a challenge
+of traditional application hosting solutions
+not being able to shrink down as needed.
+And essentially, a lot of wasted costs
+on computing capacity you do not need,
+outside of those few moments
+when you have a peak number of users.
+In this case, we have trouble being elastic.
+So let's assume, in this example, that our server is able
+to support all the different users
+accessing it at the same time.
+However, we have a new issue.
+Since our Spotify application is a global application,
+we have users in the United States,
+India, Japan, Germany and Brazil,
+all accessing this single server hosted in a US data center.
+As a result, due to physical proximity,
+our users in the United States
+have a good performing application experience
+because they are physically closer to the servers.
+However, our other users around the world
+do not have as good of an experience
+because they are physically much further away
+from our central server.
+In this situation that, yes our server works
+and is able to support everyone.
+However, it is a challenge for this application
+to be highly available and to be able to operate
+at max performance for everyone,
+due to the fact that different users
+are physically farther away
+than other users are around the world.
+So in these examples, using the traditional
+on-premise model, we have difficulty
+creating a fault-tolerant, highly available,
+scalable and elastic solution,
+just due to the model of the traditional IT environment.
+So let's flip this around then,
+and talk about how these challenges are solved
+using the benefits that Google Cloud
+and other cloud platforms give us.
+So we're going to go over the exact same scenarios again.
+So in our first scenario, we are again,
+going to increase our number of users
+using our Spotify application.
+However, the main difference though,
+is that instead of our additional users
+all using the same single server,
+we're just going to simply create an additional
+copy of that server.
+And have our additional users,
+instead of going to the original one,
+all go to the new server that we just created for them.
+And as we increase in users, maybe we have 500,000,
+1 million, 10 million users all at once,
+it's no big deal.
+We will just be simply creating additional servers
+for those users to be able to use.
+Therefore, we are not overloading
+any one single individual server.
+Now the really great part about this model
+is that this is 100% automatic.
+You don't have to wash the application
+and click the increase server button.
+Rather as your user load increases,
+your Google Cloud application will automatically create
+additional servers for your users to go to,
+without any other additional interaction from you.
+And this is a great example
+of a good scalable solution in action.
+So going along with this scenario, we have our users
+on at different servers, we have a scalable application.
+However, oh-oh, one of our servers,
+just for whatever reason, goes down and has a crash.
+Now normally our users there in the top center,
+the application would be completely down for them.
+However, using a Google Cloud hosted application,
+we have the ability to, again, automatically
+simply redirect those users to a good server.
+Remove the server that crashed,
+replace it with a brand new copy of that server.
+And then simply redirect our users
+to the newly created copy of our server,
+so they have as little downtime as possible.
+And in this scenario, this is a great example
+of using the cloud advantages of fault-tolerance in action.
+Next scenario, so we have our peak number of users.
+In this case, 500,000.
+Everyone's home for the day,
+which means they're not all using the application anymore.
+And a couple hundred thousand of them drop off.
+Again, using the advantages of the cloud,
+since we are using additional copies of our server
+to support users as our user base grows,
+we can just simply do the opposite,
+and just remove the additional servers.
+So we're not paying for computing capacity
+that we do not need at that moment.
+And this is a great example of elasticity in action.
+And for our final scenario, we have our different users.
+In this case, 500,000,
+using a collection of different servers.
+However again, since we have a globally based application
+with users in the United States,
+India, Japan, Germany and Brazil,
+we also have the ability to station
+our additional servers also in the United States,
+India, Japan, Germany, and Brazil.
+Which means that no matter where in the world
+you are located at, you are physically close
+to a collection of servers hosting your application,
+which will make sure that you have
+an overall good application experience.
+And there's, of course, an example of high availability
+in action, which means that the servers that you need
+are close to where you're at,
+regardless of where in the world you're located at.
+That's going to go ahead and wrap up this lesson,
+go ahead and mark it as complete.
+And let's move onto the next one, in which we'll continue
+discussing our different components of our example
+Spotify application and how they work on Google Cloud.
+I'll see you then.
