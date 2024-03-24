@@ -1,0 +1,21 @@
+For data loading process for Organization and Engagement tables, we will follow two steps 
+
+Bulk/Batch Process 
+
+If Bulk/Batch process fails, then it will perform row by row insert for that batch. 
+
+Step1: Extract the new/updated records from the delta table and load into a Temporary table 
+
+Step 2: Take the count of rows from the Temporary table and divide them equally into batches. 
+
+Step 3: Inside try.... catch block, run a while loop to take the data from each batch 
+
+Step 4: write the merge code inside Begin Transaction....and once the merge code executes successfully then it will commit the transaction and go to the next batch. 
+
+Step 5: If step 4 fails, then the row-by-row insertion will happen using Insert query into the table for the same batch to capture the faulty record. 
+
+Step 6: Once the faulty data found, it should be inserted into Audit table with all the details like (DunsNumber, Error message, Date) 
+
+Step 7: Once the row-by-row insertion completes, then again, the next batch data process will start. 
+
+Step 8: Check the error message of the faulty data and rectify the issue and rerun the Stored Proc. 
