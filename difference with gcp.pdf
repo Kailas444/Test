@@ -1,0 +1,74 @@
+Use Cases of Composer: Composer can be used to perform high end data manipulations and synchronization can be done as dag by dag execution which is not possible with cloud function. 
+
+Testing 400K records with Composer took 6.608 second, refer screenshots below
+Duration:6.608 Seconds
+
+Use Cases of Cloud function: Cloud function can be used to perform event driven tasks and some loading tasks. Transformations are not preffered with cloud functions.as they have certain limitations
+
+Testing 400K records with Cloud Function took 15.966 second, refer screenshots below
+Duration :15.966 Seconds
+
+
+Composer   vs Data flow
+Compatibility: Composer is compatible with many data sources and file formats 
+vs
+Compatibility: Dataflow is compatible with many data sources and file formats,big query api and can be easily integrated with other gcp services     
+
+Transformation Capabilities: has complex data processing capabilities ,for more advanced uses it uses dataflow in backend.works with apache airflow.
+vs
+Transformation Capabilities: More Advanced data processing capabilities than composer works with apache beam with higher transformation abilities..Therefore it is more powerful compared to composer.Supports realtime data    
+
+Performance:Composer is more optimised to manage workflows and can run a very smoothly.
+vs
+Performance:Dataflow has is highly optimized for performance, and it can work with real time data as well
+
+Scheduling:works on airflow and can schedule ETL jobs with easy to use web based UI  
+vs
+Scheduling:Has no internal scheduler but own logic for scheduling should be built .but it can be combined with cloud scheduler for scheduling.and also airflow scheduler can also be used to schedule
+
+User interface: has easy ui based approach 
+vs
+User interface:Has more complex ui and required robust programming knowledge.
+
+
+Note: Dataflow Poc is not done as we are going with Composer in the project 
+
+Note: For Real time if data is very huge,then dataflow is recommended else we can go with composer
+
+Retrieving data. Wait a few seconds and try to cut or copy again.
+
+
+
+Composer vs Cloud function
+Service type:workflow management platform
+vs
+Service type: Serverless compute platform
+
+use case: Complex data processing pipelines
+vs
+Use case: event driven ,and some real-time processing
+
+Integration:Integrates with various GCP services
+vs
+Integration : Integrates with gcp and external services
+
+Scaling : Can scale up or down based on the size and complexity of workflows
+vs
+Scaling : Scales based on event but has memory and timeout limitation
+
+Architecture: Based on apache airflow workflow engine
+vs
+Architecture : based on serverless computing architecture     
+
+
+Airflow Scheduler vs cloud Scheduler: 
+Apache Airflow is managed service, it serves well when orchestrating interdependent pipelines and scheduling
+vs
+Cloud Scheduler is just a managed Cron service only for scheduling. The functionality is much simpler than Cloud Composer.only in terms of scheduling.
+
+
+Cloud Composer is deeply integrated within the Google Cloud Platform, giving users the ability to orchestrate their full pipeline. Cloud Composer has robust, built-in integration with many products, including BigQuery, Cloud Dataflow, Cloud Dataproc, Cloud Datastore, Cloud Storage, Cloud Pub/Sub, and AI Platform.
+vs
+Cloud Scheduler has built in retry handling so you can set a fixed number of times and doesn't have time limits for requests. The functionality is much simpler than Cloud Composer.
+
+Note: Currently we are using airflow for scheduling composer
