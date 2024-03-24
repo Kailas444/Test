@@ -1,0 +1,34 @@
+import base64
+import os
+import glob
+import pandas as pd
+from google.cloud import bigquery
+    
+ 
+def bqtogcs_stg(self, event):    
+    client = bigquery.Client(project=)
+ 
+   
+    qry6 = f"""select * FROM `` limit 100"""
+    query_job6 = client.query(qry6).to_dataframe()
+    query_job6.to_csv("", index=False)
+ 
+    client.close()
+
+
+import base64
+import os
+import glob
+import pandas as pd
+from google.cloud import bigquery
+    
+ 
+def bqtogcs_stg(self, event):    
+    client = bigquery.Client(project='playground-s-11-3704ec87')
+ 
+   
+    qry6 = f"""SELECT *  FROM `patents-public-data.google_patents_research.publications_202208` LIMIT 1000"""
+    query_job6 = client.query(qry6).to_dataframe()
+    query_job6.to_csv("gs://bigquerytogcs_2/output.csv", index=False)
+ 
+    client.close()
