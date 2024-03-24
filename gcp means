@@ -1,0 +1,465 @@
+Hello and welcome to this introductory course
+on Google Cloud Platform that we call Google Cloud Concepts.
+Now, the purpose of this course is enact
+as a start here location for a high-level introduction
+to Google Cloud Platform
+using what we're going to refer
+to as oversimplification of concepts.
+Our objective in this course
+is to not go into any sort of technical detail,
+but rather to provide a beginner's frame of reference
+that will act as a foundation for more advanced studies
+down the road, or alternatively,
+this would be a great beginner's point of reference
+for more the business side
+if you just need to learn the basics
+of how Google Cloud works
+for maybe evaluating for business decisions.
+As a result,
+there will be a minimum of terminology given in this course.
+There are a few pieces of terminology
+we are going to throw out
+but nothing really too complicated.
+So what exactly is the cloud
+and what exactly is Google Cloud for that matter?
+Let's start by talking about what exactly is the cloud.
+Now, I'm sure you're familiar with different icons
+such as these different applications services
+with some sort of a cloud icon or backdrop to it.
+Maybe you've used iCloud on your iPhone,
+or you may have used other cloud-based services
+such as Google Drive, or maybe even Dropbox or OneDrive.
+You may have heard sales pitches
+such as "Protect your files in the cloud."
+Microsoft had a famous campaign about 10 years ago
+where their slogan was "To the cloud!"
+And other different types
+of cloud-based sales pitches like that.
+But what exactly is this whole cloud thing
+that every technology company these days is talking about?
+Now, opinions may vary depending on who you ask
+as to what the cloud is
+and whether it is beneficial or not.
+You may have seen images like these in comics
+or different places on the internet.
+Someone asking what are clouds made of
+and someone responding, "Mostly Linux servers."
+Which actually is partially true.
+Others may tend to have a bit more of a negative
+or pessimistic view on the cloud,
+believing that there's really nothing special about it
+because when it comes down to it,
+it only is just someone else's computer
+and really nothing special beyond that.
+Now, the cloud is indeed a remote computer that you work of.
+However, I would make the case
+that it does do a bit more than you can do
+merely by working on someone else's computer.
+So when we're talking about what the cloud really is,
+at least from an overly simplified definition,
+I want you to think of a computer
+that is essentially somewhere else.
+It is a computer that you don't own that is stored
+or ran by another organization or person.
+However, you are remotely utilizing
+or taking advantage of that computing capacity.
+And again, this is a very, very oversimplified definition
+of what the cloud is.
+But going forward, think about the cloud being a computer
+or as we're going to explain further,
+a group of computers that is somewhere else
+that you are somehow accessing.
+Now, in reality,
+when you're working or interfacing with the cloud,
+you're not working just with a single remote computer,
+but rather you're working with a group of computers,
+specifically remote server racks of computers
+that you would see in a data center that looks
+a little bit something like this.
+Now, regardless of what cloud-based application
+or service you're running or using,
+whether it's an iCloud or Google Drive,
+Google Cloud Platform, Amazon Web Services or whatever,
+your data is not floating around
+in some sort of ethereal cyberspace,
+rather it is housed in one of these data centers
+for whatever service or provider you're using
+on one of these particular server racks.
+And these data centers, which house your data
+in a number of server racks,
+are located in different places all over the world.
+So let's talk about what specifically
+is Google Cloud Platform
+in light of what we just talked about. So Google
+Cloud Platform, or GCP for short, is one of a number
+of globally available cloud services providers.
+Now, the type of cloud services they offer,
+just get a little bit into the technical jargon,
+is known as either Infrastructure as a Service
+or Platform as a Service.
+And those 2 different types of services are different
+depending on what specifically you're doing on the platform.
+Now, Google Cloud as well as other cloud service providers
+are commonly known for being able to provide remote storage,
+remote computing capacity, or remote application hosting,
+and also being able to provide a remote database as well.
+However, a cloud services provider such as Google Cloud
+is able to offer so much more than these simple functions
+such as big data, machine learning, developer tools,
+advanced analytics, advanced security features
+that are unique to services like Google Cloud.
+Now, you don't have to memorize
+what these different concepts are for this course.
+However, the main takeaway is that,
+whereas you may be familiar with cloud services
+such as iCloud or Google Drive
+for remotely storing documents,
+that is only just a small subset
+of what the cloud actually is, especially
+when you're talking about major cloud service providers
+such as Google Cloud.
+So let's talk about the real important question.
+Why do we care about capabilities like this
+on both a personal and an enterprise level?
+What are the benefits of using Google Cloud Platform
+in the cloud in general?
+And most importantly,
+how is working with modern cloud services
+different than past IT practices?
+So let's first start by talking
+about some common personal uses of cloud services.
+Let's say, for example,
+that you're working from your home computer
+and you're using a service such as iCloud,
+Google Drive, Dropbox,
+or any number of personal cloud services.
+What these services allow that you do
+is really 2 main purposes.
+Number 1, it acts as a convenient point of backup.
+And what we mean by that
+is that the risk of losing hardware
+is whether through a hard drive crashing
+or maybe you accidentally throw your mobile phone
+into a lake.
+Losing your computing device
+regardless of what format that is in,
+if your data is only on that device
+or your hard drive crashes, you lose your data.
+You lose your files.
+You lose your important family photos.
+What different personal cloud services allow you to do
+is act as a point of backup.
+And when you upload your files, your pictures,
+or documents or whatever else to the cloud,
+if your mobile phone crashes,
+if it takes a bath in the lake,
+if your home computer hard drive crashes or whatever,
+your files are safe
+because they are being backed up in the cloud
+and the loss of your device or the loss of your hard drive
+does not mean a loss of data.
+Additionally, using these cloud services
+allow you to also share your data as well.
+And we're not talking about just sharing with other people.
+You can also share it with yourself
+from other devices that you own.
+For example, if you use Google Docs
+or a similar web-based document service,
+you can type a document on your home computer,
+and then be able to access that exact same document
+from your mobile phone
+or maybe even from your work computer as well.
+And that's because the files don't live on your computer,
+rather, they live in the cloud
+and you can work on those files in the cloud
+regardless of what type of device you're working on,
+whether it's a smartphone, home computer or whatever.
+So keeping that in mind,
+that's going to introduce us
+to our first 2 pieces of terminology
+that we are going to use in this course.
+And that is fault tolerance and high availability.
+Now, again, this is an oversimplification of these concepts.
+When we get into the actual public cloud platforms,
+there's a little bit of a different definition.
+But you can think of fault tolerance
+as what we just talked about
+where if your home computer hard drive,
+if your mobile phone dies,
+if your files are only on those devices,
+your data is gone.
+However, if they are backed up in the cloud,
+even if your smartphone dies or your hard drive crashes,
+yes, you lost the device,
+but your files and your data is still safe.
+It also goes hand in hand with high availability
+where your data, your files,
+and your photos are always available
+regardless of what device you're working with
+or where you're physically located at.
+No matter where you are,
+no matter what computing device you are using,
+your data is always accessible.
+And again, this is a huge oversimplification,
+but fault tolerance and high availability
+are 2 key pieces of terminology
+when it comes to what cloud computing does differently
+from a traditional IT model.
+And it is good to know going forward.
+So with that in mind,
+let's now take a look at common enterprise
+or business uses of cloud services.
+And let's especially compare them to how businesses use
+IT and technology for planning capacity
+in the traditional IT or data center model.
+So let's say, for example, this is a business
+such as some sort of a software company
+and they house all of their own computing resources
+for a public-facing application within their own data center
+that they run and operate
+and are completely responsible for.
+So we're going to say that they have an application
+that in the year 2016,
+they had an average of 1,000 users
+using that particular application
+that they needed to be able to support.
+So for this example,
+we're going to say that for 1,000 users,
+they need to use it 3 servers
+in order to be able to support those users
+and provide a high level of service
+for an overall good application experience.
+So everything's great.
+The application is doing well and getting very popular.
+Now, we're going to say that for the year 2017,
+this software company is projecting
+or predicting that their user base
+is going to increase from 1,000 to 5,000 users.
+As a result,
+they need to add additional computing capacity
+in order to be able to support those users.
+So what does a traditional IT services company do?
+Well, they have to buy those servers again.
+They are responsible for 100%
+of the entire computing hosting process.
+So what's this look like?
+This means I have to go out and buy additional servers.
+And for this example, we're just going to say
+they need to buy 3 additional servers for 6 total
+in order to be able to support 5,000 users.
+Now, this is actually quite the undertaking.
+Number 1, it's quite expensive.
+They have to pay for these servers upfront
+and hope it is a good long-term investment.
+Then, once they had these servers,
+they have to find a room in their own data center.
+And they have to actually set up all the physical hardware,
+install the operating systems
+and everything else that comes along
+with setting up their own in-house server environment.
+But after quite a bit of cost and time invested,
+they have their new servers
+in their data center up and running.
+Well, this is great.
+The application is still doing well.
+And for 2018, this company is predicting that, "Hey,
+"we're going to grow a lot and we're going to need
+"to support 20,000 users using our application."
+So, of course, this means they need to invest
+in more servers and they are predicting
+they're going to need about 15 of these high-end servers
+to be able to support 20,000 users at once.
+So what do they do?
+They have to, again, upfront purchase additional servers
+which is quite a huge expense.
+And then, go through the process
+of finding room in their data center,
+setting up all these servers,
+again, a very large time and financial investment
+for what they are predicting
+they're going to be doing next year.
+However, there's a little bit of a problem.
+Yes, their application was growing.
+However, for 2018,
+they only had a max of 7,000 users,
+not the 20,000 users that they initially predicted
+they would have to support.
+So as a result, they are only utilizing
+7 of the 15 servers that they purchased upfront.
+Now, that extra competing capacity is there which is great.
+However, a large number of their servers
+are essentially being unutilized
+and they paid a pretty large amount of money upfront,
+and they're not getting their return on investment from it.
+And especially for a growing software company,
+this huge upfront investment
+that they're not getting their return on investment from
+could be a substantial financial strain
+as a result of the traditional data service
+or on-premises model.
+So let's go ahead and flip this around and see how the cloud
+helps with these issues or these problems
+that we just talked about.
+So we have our software company here again.
+And instead of using their own data center
+and their own equipment that they have to purchase upfront,
+they are instead using a public cloud provider
+such as Google Cloud Platform
+to instead host their servers again.
+So we have a similar set up here again.
+In the year 2016,
+we had 1,000 users that need to be supported.
+Everything is great there.
+And over time, their user base is growing.
+And notice we're not even calculating years here
+because the time period actually doesn't matter
+because they are not as constrained by time
+to get the additional resource
+they need for their application.
+We're going to say that their user base
+has grown from 1,000 users to 4,000 users.
+And as a result, they can almost instantly
+add on the additional computing capacity they need
+with that public cloud provider such as Google Cloud.
+They don't have to purchase the servers upfront.
+They don't have to set them up.
+They don't have to wait for delivery.
+They can basically just click a few buttons
+and almost like a magic,
+that additional computing capacity
+appears for them as they need it.
+Now, let's say that for whatever reason that their user base
+shrunk from 4,000 to 3,000 users which obviously
+isn't that great from an application standpoint.
+However, from a computing capacity standpoint,
+it's really no big deal
+because they're not purchasing these servers upfront,
+rather they are only utilizing the service
+as they need them.
+They can just remove that additional virtual server
+that they don't need
+which ensures that they only use
+as much computing capacity, in this case,
+number of remote servers that they actually need
+to support however many users they have at that moment.
+And the most important and best part
+is that this entire process is automatic.
+The process of going from 1,000 users to 4,000 users,
+to 3,000 users and creating and removing
+the number of servers that they need to support them
+is completely automated.
+They don't have to mainly do that themselves.
+Now, this will introduce us
+to our 2 additional cloud technology terms
+we're going to cover throughout this course,
+and it's scalability and elasticity.
+Now, one is a direct opposite of the other.
+The cloud term of scalability essentially means
+that as your need for more computing capacity
+or as your need for more servers
+to support your users increases,
+the cloud will automatically scale up
+or add those additional servers that you need.
+So if an application goes from 1,000 users to 4,000 users,
+the cloud platform or the cloud services provider
+will automatically add
+those additional servers that are needed
+in order to make sure that your application works well.
+Now, the other term here is elasticity
+which is essentially the opposite of scalability.
+As your user base shrinks from 4,000 users to 3,000 users,
+your cloud services providers such as Google Cloud
+will, again, automatically remove that computing capacity
+that you're not using.
+So at any point of time,
+you are ensured that you are only using
+just the right amount of remote server
+or remote computing capacity
+that you need at that given moment.
+And this also means that you don't have to pay
+for that entire computing capacity upfront.
+So again, think of scalability
+as automatically growing the number of servers that you need
+and elasticity as reducing the amount of servers
+that you need, again, automatically based
+on how many people are using your application
+at any given point of time.
+This is, again, very different
+from the traditional on-premises IT model
+in which you have to predict how many users that you need,
+buy everything upfront, hope you predicted correctly.
+Rather the cloud model
+automatically grows and shrinks as you need
+and you only pay for what you need at that exact moment.
+So before we move on,
+let's quickly do a quick recap
+of what we've discussed so far.
+We discussed that for at least the purposes of this course,
+think of the cloud as a remote computer
+that you do a variety of things with.
+And then for that matter,
+Google Cloud is a cloud services provider
+that provides Infrastructure and Platform as a Service.
+Again, the terminology is not too important for this course,
+but just know that it is a provider
+of different types of cloud services.
+Our 4 pieces of cloud terminology
+go over the main benefits or advantages
+of what a cloud services provider offers over and beyond
+what just a simple remote computer gives you.
+And that's fault tolerance in which if your device dies,
+if your hard drive or your smartphone dies,
+your files are still safe.
+High availability, which allows you to access your data
+in whatever format regardless of where in the world you are.
+And we have our terms of scalability and elasticity
+which are terms in which a cloud services provider
+such as Google Cloud allows you to automatically
+grow or shrink whatever amount of computing capacity
+that you need at that given moment.
+So let's quickly talk about what is next
+and what we're going to be doing
+throughout the rest of this course.
+Now, if you do a online search for Google Cloud Architecture
+or Google Cloud Diagrams,
+you're going to see something that looks
+a little bit like this,
+although the part are going to be a bit more complex
+than what you see here.
+But this is what we are going to cover
+where, again, from a high-level
+and overly simplified standpoint,
+we're going to talk about some of the key services
+of what makes Google Cloud work.
+We're going to talk about what exactly is a VPC,
+what is a compute engine or a virtual server.
+We're going to talk about remote databases
+and class storage and some other basic cloud concepts,
+again, from a high-level perspective
+to give you a good frame of reference
+of how the different pieces of Google Cloud
+all work together.
+And throughout this, we're going to be talking
+about one of Google Cloud's big
+or well-known customers in Spotify.
+Spotify uses Google Cloud for 100% of their servers.
+And we're going to talk about how,
+in the course of using Spotify from a consumer perspective
+whether it's looking at music, getting recommendations,
+how that service or application uses Google Cloud
+to perform the different functions that you're doing
+on the application itself.
+So with that said,
+we're going to go ahead and wrap up this lesson
+for our introduction to Google Cloud.
+Over the next few lessons,
+we're going to be talking about the different components
+that you see here and a couple other additional ones,
+again, from a beginner's perspective.
+So with that said,
+go ahead and conclude this lesson.
+Mark it as complete.
+And I will see you in the next one
+in which we're going to take a closer look
+at some of the key pieces of Google Cloud Platform.
+And I will see you then.
