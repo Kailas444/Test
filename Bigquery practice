@@ -1,0 +1,454 @@
+
+#!/bin/python3
+import math
+import os
+import random
+import re
+import sys
+
+print('Hello')
+if __name__ == '__main__':
+    n = int(input().strip())
+    print('Hello')
+    # if n % 2 != 0:
+    #     print('Weird')
+    # if n % 2 ==0 and n in range(2,5):
+    #     print(' Not Weird')
+    # if n% 2 == 0 and n in range(6,20):
+    #     print('Weird')
+    # if n % 2 ==0 and n > 20:
+    #     print("Not Weird")
+    #n=3
+    print("Start")
+    if n%2 !=0:
+        if n >=2 and n <=5 or n > 20:
+           print('Not Weird')
+        elif n >=6 and n <=20:
+           print('Weird')
+    else:
+        print("Weird")
+
+
+
+Partition examples
+
+Saturday, November 18, 2023
+3:41 PM
+
+Partition types
+1.Integer range:(0,100,10)use range_bucket(column name,and generate_arry(0,100,10)
+(start_time, end,Interval)
+2.Time Unit column(date,Datetime,timestamp or daily,hourly,monthly,yearly)
+Partition by Date_trunc(column name,Month)(replace with day,hour,year)
+3.Ingestion time(use _PARTITIONDATE)
+Same as time unit partition but bigquerymanage those partition by _PARTITIONTIME pseudo column(DATETIME_TRUNC(_PARTITIONTIME,HOUR))
+4.Special Parition: _null_, _Unpartitioned_
+
+
+create table `playground-s-11-810491d6.practice_partition.Test_partition_date`
+(transcation_id int64,
+transaction_date Date)
+partition by
+transaction_date
+options
+(partition_expiration_days=3,
+require_partition_filter=True);
+insert into `playground-s-11-810491d6.practice_partition.Test_partition_date` values(1,'2023-11-19')
+select table_name,partition_id,total_rows from `playground-s-11-810491d6.practice_partition.INFORMATION_SCHEMA.PARTITIONS`
+SELECT * FROM `playground-s-11-810491d6.practice_partition.INFORMATION_SCHEMA.PARTITIONS`
+#partition table by monthwise
+create table `playground-s-11-810491d6.practice_partition.Test_partition_date_monthwise`
+(transcation_id int64,
+transaction_date Date)
+partition by
+date_trunc(transaction_date,MONTH)
+options
+(partition_expiration_days=3,
+require_partition_filter=True);
+#insert record in Month table
+insert into `playground-s-11-810491d6.practice_partition.Test_partition_date_monthwise` values(1,'2023-11-19')
+#partition by ingestion time
+create table `playground-s-11-810491d6.practice_partition.Test_partition_date_ingetion_time`
+(transcation_id int64)
+partition by
+_PARTITIONDATE
+options
+(partition_expiration_days=3,
+require_partition_filter=True);
+#insert into partition by ingetion time
+insert into `playground-s-11-810491d6.practice_partition.Test_partition_date_ingetion_time` values(1)
+
+
+#partition by Integer_range based partition
+create table `playground-s-11-810491d6.practice_partition.Test_partition_Integer_range`
+(customer_id int64,
+date1 Date)
+partition by
+range_bucket(customer_id,GENERATE_ARRAY(0,100,10))
+options
+(require_partition_filter=True);
+insert into `playground-s-11-810491d6.practice_partition.Test_partition_Integer_range` values(1,'2023-11-19')
+select table_name,partition_id,total_rows from `playground-s-11-810491d6.practice_partition.INFORMATION_SCHEMA.PARTITIONS`
+SELECT * FROM `playground-s-11-810491d6.practice_partition.INFORMATION_SCHEMA.PARTITIONS`
+#partition table by monthwise
+#create table usning exiting table
+create table `playground-s-11-810491d6.practice_partition.Test_partition_using_exiing_table`
+(transcation_id int64,
+transaction_date Date)
+
+Practice_Partition
+
+We cannot use legacy SQL for querying partition table
+Does not support partition on multiple coulmns
+Record(Struct) does not support on leaf nodes and also repeated field
+
+/*
+Author : @ Anjan GCP Data Engineering
+
+Created SQLs to Demo  BigQuery Table Partitioning
+  1. TIME UNIT (MONTHLY)
+  2. INTEGER RANGE
+  3. INGESTION TIME UNIT
+
+*/
+
+/************** Time Unit Partitioning  *******************/
+
+-- Query this table to understand the data distribution across different dates
+
+SELECT  min(start_time), max(start_time) FROM `gcp-data-eng-374308.bigquery_demos.bikeshare_trips`;
+
+select DATE_TRUNC(start_time, DAY) as year,count(*) from `gcp-data-eng-374308.bigquery_demos.bikeshare_trips`
+group by 1 order by 1;
+
+select DATE_TRUNC(start_time, MONTH) as year,count(*) from `gcp-data-eng-374308.bigquery_demos.bikeshare_trips`
+group by 1 order by 1;
+
+select DATE_TRUNC(start_time, YEAR) as year,count(*) from `gcp-data-eng-374308.bigquery_demos.bikeshare_trips`
+group by 1 order by 1;
+
+--Create MONTHLY Partitioned table based on TIME UNIT columns
+create or replace table bigquery_demos.bikeshare_trips_p
+(
+trip_id	INT64,				
+subscriber_type	STRING,		
+bikeid	STRING,			
+start_time	TIMESTAMP,
+start_station_id	INT64,			
+start_station_name	STRING,				
+end_station_id	STRING,				
+end_station_name	STRING,				
+duration_minutes	INT64	
+)
+PARTITION BY
+  TIMESTAMP_TRUNC(start_time, MONTH);
+
+--Create partition table usning SQL query result
+
+create or replace table bigquery_demos.bikeshare_trips_sql
+(
+trip_id	INT64,				
+subscriber_type	STRING,		
+bikeid	STRING,			
+start_time	TIMESTAMP,
+start_station_id	INT64,			
+start_station_name	STRING,				
+end_station_id	STRING,				
+end_station_name	STRING,				
+duration_minutes	INT64	
+)
+PARTITION BY
+  start_time
+  AS (SELECT  TIMESTAMP_TRUNC(start_time , DAY)
+      FROM `gcp-data-eng-374308.bigquery_demos.bikeshare_trips`);
+  
+--Insert data into Partitioned table  
+insert into bigquery_demos.bikeshare_trips_p
+select * from bigquery_demos.bikeshare_trips;
+
+-- Query non Partitioned table
+select * from bigquery_demos.bikeshare_trips
+where start_time > '2020-12-01 00:00:00 UTC';
+
+-- Query partioned table and see the difference
+select * from bigquery_demos.bikeshare_trips_p
+where start_time > '2020-12-01 00:00:00 UTC';
+
+
+/************** Integer Range Partitioning  *******************/
+
+-- Query this table to understand the data distribution across INTEGER type column
+SELECT id,
+text,
+score,
+creation_date  
+FROM `bigquery-public-data.stackoverflow.comments`;
+
+--Creat Partitioned table
+create or replace table bigquery_demos.stackoverflow_comments_p
+(
+  id INT64,
+  text STRINg,
+  score INT64,
+  creation_date TIMESTAMP
+)
+partition by RANGE_BUCKET(id, GENERATE_ARRAY(0, 140390264, 100000));
+
+--Insert data into partitioned table
+insert into bigquery_demos.stackoverflow_comments_p
+SELECT id,
+text,
+score,
+creation_date  
+FROM `bigquery-public-data.stackoverflow.comments`;
+
+
+--Query non Partitioned table
+SELECT id,
+text,
+score,
+creation_date  
+FROM `bigquery-public-data.stackoverflow.comments` 
+where id between 1000 and 100000;
+
+--Query Partitioned table
+SELECT id,
+text,
+score,
+creation_date  
+FROM `bigquery_demos.stackoverflow_comments_p` 
+where id between 1000 and 100000;
+
+/************** Data Ingestion Time Unit Partitioning  *******************/
+
+--See the data distribution across HOUR/DAY/MONTH/YEAR ?
+SELECT TIMESTAMP_TRUNC(trip_start_timestamp, HOUR),count(*)
+ FROM `bigquery-public-data.chicago_taxi_trips.taxi_trips`
+ where trip_start_timestamp > '2021-10-01 18:15:00 UTC'
+ group by 1
+ order by 1 desc;
+
+--Create partition table based on ingestion time with HOUR as partition criteria
+create or replace table bigquery_demos.taxi_trips
+(
+unique_key       STRING,
+taxi_id       STRING,
+trip_start_timestamp       TIMESTAMP,
+trip_end_timestamp       TIMESTAMP,
+trip_seconds       INT64,
+trip_miles       FLOAT64,
+pickup_census_tract       INT64,
+dropoff_census_tract       INT64,
+pickup_community_area       INT64,
+dropoff_community_area       INT64,
+fare       FLOAT64,
+tips       FLOAT64,
+tolls       FLOAT64,
+extras       FLOAT64,
+trip_total       FLOAT64,
+payment_type       STRING,
+company       STRING,
+pickup_latitude       FLOAT64,
+pickup_longitude       FLOAT64,
+pickup_location       STRING,
+dropoff_latitude       FLOAT64,
+dropoff_longitude       FLOAT64,
+dropoff_location       STRING
+)
+PARTITION BY
+ DATETIME_TRUNC(_PARTITIONTIME,HOUR)
+  OPTIONS (
+    partition_expiration_days = 3,
+    require_partition_filter = TRUE);
+
+-- Query Partitioned table
+SELECT
+  *
+FROM
+  bigquery_demos.taxi_trips
+WHERE
+  _PARTITIONTIME > TIMESTAMP_SUB(TIMESTAMP('2016-04-15'), INTERVAL 2 HOUR);
+
+  SELECT
+  *
+FROM
+  bigquery_demos.taxi_trips
+WHERE
+  _PARTITIONTIME BETWEEN TIMESTAMP('2016-04-15') AND TIMESTAMP('2016-04-14');
+
+  -- If you want to update partition filter requirement or expiration  use below DDLs
+
+ALTER TABLE bigquery_demos.taxi_trips
+SET OPTIONS (
+    -- Sets partition expiration to 5 days
+    partition_expiration_days = 5,
+    require_partition_filter = false);
+Create partition table
+
+Sunday, November 19, 2023
+7:37 AM
+
+
+SELECT  min(start_time), max(start_time) FROM `gcp-data-eng-374308.bigquery_demos.bikeshare_trips`;
+SELECT min(start_date), max(start_date) FROM `bigquery-public-data.san_francisco.bikeshare_trips` 
+#Time unit partition
+select date_trunc(start_date,Hour), count(*) from  `bigquery-public-data.san_francisco.bikeshare_trips` group by 1 order by 1 limit 10
+select date_trunc(start_date,Day), count(*) from  `bigquery-public-data.san_francisco.bikeshare_trips` group by 1 order by 1
+select date_trunc(start_date,MONTH), count(*) from  `bigquery-public-data.san_francisco.bikeshare_trips` group by 1 order by 1
+select date_trunc(start_date,Year), count(*) from  `bigquery-public-data.san_francisco.bikeshare_trips` group by 1 order by 1
+create schema `playground-s-11-810491d6.partition`
+# create table monthly, daily,yearly and hourly
+create or replace table `playground-s-11-810491d6.partition.timeunitpartition_month`
+(
+trip_id INT64,        
+subscriber_type STRING,   
+bikeid  STRING,     
+start_time  TIMESTAMP,
+start_station_id  INT64,      
+start_station_name  STRING,       
+end_station_id  STRING,       
+end_station_name  STRING,       
+duration_minutes  INT64 
+)
+PARTITION BY
+  TIMESTAMP_TRUNC(start_time, MONTH);
+create or replace table `playground-s-11-810491d6.partition.timeunitpartition_month`
+(
+trip_id INT64,        
+subscriber_type STRING,   
+bikeid  STRING,     
+start_time  TIMESTAMP,
+start_station_id  INT64,      
+start_station_name  STRING,       
+end_station_id  STRING,       
+end_station_name  STRING,       
+duration_minutes  INT64 
+)
+PARTITION BY
+ date_TRUNC(start_time, MONTH);
+ create or replace table `playground-s-11-810491d6.partition.timeunitpartition_hourly`
+(
+trip_id INT64,        
+subscriber_type STRING,   
+bikeid  STRING,     
+start_time  TIMESTAMP,
+start_station_id  INT64,      
+start_station_name  STRING,       
+end_station_id  STRING,       
+end_station_name  STRING,       
+duration_minutes  INT64 
+)
+PARTITION BY
+  TIMESTAMP_TRUNC(start_time, Hour);
+  --Insert data into Partitioned table  
+insert into `playground-s-11-810491d6.partition.timeunitpartition_month`
+  select * from `bigquery-public-data.san_francisco.bikeshare_trips` 
+-- Query non Partitioned table
+select * from bigquery_demos.bikeshare_trips
+where start_time > '2020-12-01 00:00:00 UTC';
+-- Query partioned table and see the difference
+select * from bigquery_demos.bikeshare_trips_p
+where start_time > '2020-12-01 00:00:00 UTC';
+
+Partition table ingestion time partition 
+
+SELECT TIMESTAMP_TRUNC(trip_start_timestamp, HOUR),count(*)
+ FROM `bigquery-public-data.chicago_taxi_trips.taxi_trips`
+ where trip_start_timestamp > '2021-10-01 18:15:00 UTC'
+ group by 1
+ order by 1 desc;
+select timestamp_trunc(trip_start_timestamp,day),count(*) FROM `bigquery-public-data.chicago_taxi_trips.taxi_trips`   
+where trip_start_timestamp > '2021-10-01 18:15:00 UTC'
+group by 1 order by 1 desc limit 1;
+
+
+create or replace table `playground-s-11-810491d6.partition.ingetion_time_unit_partition_day`
+(
+unique_key       STRING,
+taxi_id       STRING,
+trip_start_timestamp       TIMESTAMP,
+trip_end_timestamp       TIMESTAMP,
+trip_seconds       INT64,
+trip_miles       FLOAT64,
+pickup_census_tract       INT64,
+dropoff_census_tract       INT64,
+pickup_community_area       INT64,
+dropoff_community_area       INT64,
+fare       FLOAT64,
+tips       FLOAT64,
+tolls       FLOAT64,
+extras       FLOAT64,
+trip_total       FLOAT64,
+payment_type       STRING,
+company       STRING,
+pickup_latitude       FLOAT64,
+pickup_longitude       FLOAT64,
+pickup_location       STRING,
+dropoff_latitude       FLOAT64,
+dropoff_longitude       FLOAT64,
+dropoff_location       STRING
+)
+PARTITION BY
+ #DATETIME_TRUNC(_PARTITIONTIME,HOUR)
+ DATETIME_TRUNC(_partitiontime,day)
+  OPTIONS (
+    partition_expiration_days = 3,
+    require_partition_filter = TRUE);
+
+SELECT
+  *
+FROM
+  `playground-s-11-810491d6.partition.ingetion_time_unit_partition`
+WHERE
+  _partitiontime > TIMESTAMP_SUB(TIMESTAMP('2016-04-15'), INTERVAL 2 HOUR);
+  SELECT
+  *
+FROM
+  `playground-s-11-810491d6.partition.ingetion_time_unit_partition`
+WHERE
+  _PARTITIONTIME BETWEEN TIMESTAMP('2023-11-19') AND TIMESTAMP('2023-11-19');
+ALTER TABLE `playground-s-11-810491d6.partition.ingetion_time_unit_partition`
+SET OPTIONS (
+    -- Sets partition expiration to 5 days
+    partition_expiration_days = 5,
+    require_partition_filter = false);
+
+
+
+
+
+Integer range partition table creation and paractice
+
+SELECT * FROM `bigquery-public-data.san_francisco.bikeshare_trips` LIMIT 1000
+SELECT min(start_date), max(start_date) FROM `bigquery-public-data.san_francisco.bikeshare_trips` 
+SELECT id,
+text,
+score,
+creation_date  
+FROM `bigquery-public-data.stackoverflow.comments`;
+create or replace table `playground-s-11-810491d6.partition.Integer_range_partition_table1`
+(
+  id INT64,
+  text STRINg,
+  score INT64,
+  creation_date TIMESTAMP
+)
+partition by RANGE_BUCKET(id, GENERATE_ARRAY(0, 140390264, 100000));
+create or replace table `playground-s-11-810491d6.partition.Integer_range_partition_table1`
+insert into `playground-s-11-810491d6.partition.Integer_range_partition_table1`
+SELECT id,
+text,
+score,
+creation_date  
+FROM `bigquery-public-data.stackoverflow.comments`;
+--Query non Partitioned table
+SELECT id,
+text,
+score,
+creation_date  
+FROM `bigquery-public-data.stackoverflow.comments` 
+where id between 1000 and 100000;
+
+select id,text,score,creation_date from `playground-s-11-810491d6.partition.Integer_range_partition_table1`
+where id between 1000 and 100000
+
