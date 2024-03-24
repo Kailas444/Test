@@ -1,0 +1,51 @@
+Inner join	left	right	full
+6	6	6	6
+
+Let break down materialized view?
+A materialized view is a database object that contains the results of a query.
+It stores the SQL query and also stores the data that returns from the SQL query.
+
+Every time we execute the materialized view, it will not execute the query again. 
+Instead, it will return the data that is stored in the materialized view
+
+Pros:
+✳️It improves performance by precomputing some of the most expensive operations.
+✳️The speed can increase greatly when it comes to querying large databases.
+
+Drawback:
+🔴If any update, delete, or insert happens in the base tables, those will not get reflected automatically, and we need to manually refresh the materialized view.
+Process of ETL ❓
+Extract Transform Load is a three-phase process where #data will get into below Phases:
+
+Extract: Extract the Data from the sources
+
+Transform the Data: Cleaning, Splitting, joining, filtering, sorting the Data according to the requirement.
+
+Load: Loads the Data sent into the Destination Location
+
+Difference between OLTP vs OLAP❓
+
+OLTP
+🔷It Handles Recent Data
+🔷 Data Size is smaller.
+🔷Use to perform Day to Day Operation
+🔷Use simple Queries.
+🔷Processing speed will be faster.
+🔷Read/Write Operations
+
+
+OLAP
+🔶It Stores all Historical Data
+🔶Data Size is Larger
+🔶Use to make analysis and taking decision.
+🔶Use Complex queries.
+🔶 Processing speed will be slow.
+🔶Only read Operations.
+
+BigQuery is primarily an OLAP (Online Analytical Processing) database system that is designed for storing and analyzing large amounts of data. It is optimized for fast, complex queries, aggregation, and analysis of large datasets.
+While BigQuery can handle transactional workloads and supports the ability to update and delete data, its primary focus is on analytical processing and query performance. BigQuery is commonly used for data warehousing, business intelligence, and analytics applications, where OLAP functionality is essential for extracting insights from data.
+
+
+
+
+
