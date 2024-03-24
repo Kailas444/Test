@@ -1,0 +1,103 @@
+Google Cloud Functions 
+
+Google Cloud Functions is a serverless execution environment for building and connecting cloud services. With Cloud Functions you write simple, single-purpose functions that are attached to events emitted from your cloud infrastructure and services. Your function is triggered when an event being watched is fired. Your code executes in a fully managed environment. There is no need to provision any infrastructure or worry about managing any servers’ executions. 
+
+Cloud Functions benefits 
+
+No servers to provision, manage, or upgrade 
+
+Automatically scale based on the load 
+
+Integrated monitoring, logging, and debugging capability 
+
+Built-in security at role and per function level based on the principle of least privilege 
+
+Key networking capabilities for hybrid and multi-cloud scenarios 
+
+Cloud Function key features 
+
+Simplified developer experience and increased developer velocity 
+
+Pay only for what you use 
+
+Avoid lock-in with open technology 
+
+End-to-end development and diagnosability 
+
+Scales automatically 
+
+No server management 
+
+Runs code in response to events 
+
+Technical considerations when using Google Cloud Functions in Data Platform 
+
+Cloud Functions can be written in any of the below programming languages, and are executed in language-specific runtimes. The Cloud Functions execution environment varies by your chosen runtime: 
+
+Node.js 
+
+Python 
+
+Go 
+
+Java 
+
+.NET 
+
+Ruby 
+
+ 
+
+Types of Google Cloud functions in Data Platform 
+
+There are two distinct types of Cloud Functions: HTTP functions and event-driven functions. Event-driven functions can be either background functions or CloudEvent functions, depending on which Cloud Functions runtime they are written for. 
+
+ 
+
+ 
+
+HTTP functions 
+
+You invoke HTTP functions from standard HTTP requests. These HTTP requests wait for the response and support handling of common HTTP request methods like GET, PUT, POST, DELETE and OPTIONS. When you use Cloud Functions, a TLS certificate is automatically provisioned for you, so all HTTP functions can be invoked via a secure connection. 
+
+Event-driven functions 
+
+Cloud Functions uses event-driven functions to handle events from your Cloud infrastructure, such as messages on a Pub/Sub topic, or changes in a Cloud Storage bucket. 
+
+Cloud Functions supports two sub-types of event-driven functions: 
+
+Background functions 
+
+CloudEvent functions 
+
+The sub-type you use will depend on the runtime your function targets. 
+
+Background functions: Event-driven functions written for the Node.js, Python, Go, and Java Cloud Functions runtimes are known as background functions 
+
+CloudEvent functions: Event-driven functions written for the .NET Cloud Functions runtime are known as CloudEvent functions 
+
+Best practices 
+
+ 
+
+In order for Cloud Functions to find your function's definition, each runtime has structuring requirements for your source code. 
+
+In general, it is recommended to split up large, multi-function codebases into smaller per-function ones to reduce code complexity and per-function dependency counts. 
+
+Cloud Functions have a "name" property that is set at deploy time, and once set, it cannot be changed. The name of a function is used as its identifier, and it must be unique within a region. 
+
+If the function is HTTP-triggered, ensure to send an HTTP response, if not, Cloud Function will be executed until timeout. 
+
+Background activity is anything that happens after the function has terminated. A function invocation finishes once the function returns or otherwise signals completion. Any code run after graceful termination cannot access the CPU and will not make any progress. 
+
+Local disk storage in the temporary directory is an in-memory filesystem. Files that you write consume memory available to the function, and sometimes persist between invocations. Failing to explicitly delete these files may eventually lead to an out-of-memory error and a subsequent cold start. 
+
+ 
+
+Use dependencies wisely, because functions are stateless, the execution environment is often initialized from scratch (during what is known as a cold start). When a cold start occurs, the global context of the function is evaluated. 
+
+If the function imports modules, the deployment as well as the load time for those modules can add latency time to the function, this can be avoided by loading dependencies correctly and not loading dependencies the function doesn't use. 
+
+Use global variables to reuse objects in future invocations, if a variable is declared in global scope, its value can be reused in subsequent invocations without having to be recomputed. 
+
+Do lazy initialization of global variables, when variables are initialized in global scope, the initialization code will always be executed via a cold start invocation, increasing function's latency. If some objects are not used in all code paths, consider initializing them lazily on demand. 
