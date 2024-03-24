@@ -1,0 +1,122 @@
+Hello and welcome back to our course
+on Google Cloud Concepts. We're
+going to continue our discussion on the core components
+that make up the primary pieces of Google Cloud.
+And now we're going to talk about what exactly is
+a virtual private cloud or a VPC for short?
+And once again as a reminder,
+this is going to be a high-level overly simplified
+discussion of a virtual private cloud.
+We are purposely leaving out some of the finer details,
+but our objective is to provide specifically a beginner's
+frame of reference that we can then use to build upon
+for more advanced concepts further on down the road.
+So let's again go back to our simplified diagram
+that we've been using throughout this course
+with our Spotify example.
+So we are accessing the Spotify application
+over a public internet connection.
+Accessing the application itself
+on a Compute Engine instance.
+However, notice that within our Google Cloud diagram,
+we have our white box for the entirety of Google Cloud,
+but we also have this smaller box inside of Google Cloud
+called a VPC in which we have our Compute Engine instances.
+That is again where Spotify itself lives at.
+And we also have the database itself,
+which we're going to get to here in the next lesson.
+So what exactly is this VPC box that our Compute Engine
+and everything else is sitting inside of?
+So the easiest way to think of a VPC,
+or a virtual private cloud,
+in the context of Google Cloud Platform
+is it is simply a private network on Google Cloud
+that you can place resources on your own private network.
+So let's break down a simple example.
+What exactly we mean by a private network
+versus the public internet.
+So for the example we're going to use,
+we're going to talk about a simple home network,
+which hopefully you may be familiar with.
+In our example here,
+we have the public internet on the left side.
+That is of course publicly available sites,
+such as Facebook, Google, Amazon,
+or maybe even a publicly available
+Google Cloud storage bucket.
+And on the right side, we have your home network,
+probably with a WiFi router, maybe, maybe not.
+But within our home network on your WiFi router,
+you have devices such as maybe a smartphone, tablet,
+a laptop, or maybe even a network enabled printer as well.
+Now within your home WiFi network,
+these devices are able to communicate with each other.
+So for example,
+your smartphone can communicate with your printer
+or maybe your laptop can print to your network printer
+on your home WiFi network.
+The main thing to keep in mind though,
+is that these are internal only communications.
+That means that your smartphone can talk to your laptop,
+which can also talk to your printer,
+which is all facilitated by your home router.
+But all that communication is done privately,
+completely shielded off from the outside world
+from an internal or private network.
+So we can most easily define a private network as a network
+which uses specifically internal network or IP addresses
+to communicate with each other on the private network only,
+which is completely blocked off from the public internet.
+So let's bring this back to the Google Cloud example
+in which we're trying to define
+what is a virtual private cloud on Google Cloud.
+Just think of a virtual private cloud as your home network
+on Google Cloud, in which you can create resources
+like Compute Engine instances that can use
+internal network addresses to communicate with each other
+privately and completely shielded from the public internet.
+Now, of course, Google Cloud is a little bit different
+from your home network in that these resources
+also have the option to use an additional public address
+to have both a public facing network address
+and a private network address at the same time.
+So let's, once again,
+go back to our sample network diagram
+with the Spotify example to see how exactly this plays out.
+So from the previous lesson,
+we talked about how the Spotify application itself is hosted
+on a Compute Engine instance or a virtual server
+where the actual website and application itself lives.
+Now the server that the website lives on
+is on this private network.
+However, the server also has a public facing
+address as well.
+That means when we are accessing our Spotify server,
+we are accessing over a public
+or an external internet connection.
+At the same time, this Compute Engine instance
+that is hosting the Spotify application
+needs to be able to refer to an internal database
+that is completely blocked off in the public internet
+over a private or an internal connection.
+This means that we are accessing the server
+where the application is hosted over the public internet
+on the private network.
+Then at the same time, the server is accessing
+a private database over a private
+or internal network connection that is completely
+blocked off from the outside world.
+So as a recap,
+you can simply think of a virtual private cloud, or a VPC,
+as your own private network on Google Cloud,
+in which you could place a variety of Google Cloud
+resources, and which gives you the ability to either allow
+or restrict different types of public or private network
+traffic to them as well.
+That's going to go ahead and wrap up this lesson.
+Go ahead and mark it as complete and move on to our next one
+in which we're going to talk about those databases
+that we saw in the previous slide,
+and talk about how that incorporates
+into the big picture as well.
+I'll see you then.
