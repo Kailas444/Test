@@ -197,3 +197,207 @@ Use INT64 data types in joins to reduce cost and improve comparison performa
 If your use case supports it, use INT64 data types in joins instead of STRING data types. 
 
 Big Query does not index primary keys like traditional databases, so the wider the join column is, the longer the comparison takes. Therefore, using INT64 data types in joins is cheaper and more efficient than using STRING data types. 
+
+
+
+
+
+Optimize the query cost in BigQuery 
+
+Denormalize the data into individual columns 
+
+If you're using struct data type, which means you store all the event properties inside a struct column called event_params, denormalizing the data into individual columns could drastically reduce the data that needs to be processed, leading to a 70% cost-saving potential. This is mainly because when you use UNNEST, BigQuery charges for all the properties inside a STRUCT type, which is probably not what you’re looking for. 
+
+Avoid costly queries by setting up controls 
+
+Remember that SELECT * is the most expensive way to query data because it will query across every column available in the table(s), including the ones you might not need. So try to avoid using SELECT * unless you need to. Here is an example query from BigQuery, you can see the huge processing GB difference between two queries. Even some experienced SQL users can make these mistakes, after all, we're human beings; you or your team can unknowingly query all your data, which could hurt your pocket. So, you can set up controls to limit query cost and prevent these errors. If the query goes above a limit, it will fail without incurring the cost of the query.If you’re just exploring the data and trying to understand the semantic of the table, you can also use no-charge data preview options without affecting quotas. 
+
+Introduction 
+
+For scenarios where the count of null values needs to be taken across columns in table, use the below query instead of performing null check on individual columns in where clause 
+
+ 
+
+Cache the query results 
+
+Always enable cache preference when working in non-production environments to avoid billing on recurring same queries 
+
+Caching query results can drastically reduce the load in your BigQuery and boost your performance. You won't also be charged for the results retrieved from the cached tables. By default, cache preference is turned on for 24 hours in BigQuery but you can customize it depending on your use case. 
+
+ 
+
+Pre-aggregate the data in your fact tables 
+
+BigQuery has materialized views that lets you roll up the data in fact tables. You can create materialized views to reduce the load in your BigQuery. If the question you ask in the interface requires you to query lots of data, instead of running this big and costly query across billions of rows, you can create materialized views which is the smallest and most efficient table available in your database to run this query while still maintaining the accuracy of the result. Even if you have tens of billions of rows, the roll-up tables(materialized) typically have less than a million rows. If you're using dbt for the data transformation layer, you can define materializations via dbt too. Using materialization methods in general will help you reduce query cost and boost the performance. 
+
+Use BigQuery BI Engine 
+
+You can allocate slots from BI engine to keep the data in tables in memory and avoid BigQuery’s processing cost. BI Engine has fixed cost and pricing which are based on the memory that you allocate. So, if you can pre-aggregate the data in your fact tables and query them, you can efficiently run queries without paying any extra processing fee. Metriql can help you build an OLAP engine using BigQuery and expose the metadata to your favorite downstream tools via its integrations. 
+
+Partitioning – considerations and advantages 
+
+Considerations: 
+
+Partitioning should be done on Low cardinality columns Eg: Year/Month of ingestion, Ingestion date 
+
+Use partition expression to reduce cardinality further – DATETIME_TRUNC(, YEAR) 
+
+Considering limit of 4000 partitions per table • Roll up the partitions to higher degree of cardinality in case when 4000 partitions are exceeded.  
+
+Do not create less than 1 GB partitions, prefer to use clustering in such cases for performance tuning. 
+
+For analytics use cases on larger and historical data sets present in the cloud storage, leverage federated queries with source data partitioning.  
+
+Supports multiple partition granularity as compared on single partition column in managed table 
+
+Add requires_partition filter for the partitioned tables to enforce use of partitions for tables which are in higher order of GBs  
+
+Evaluate the reporting requirements, scenarios and query patterns before hand as any queries which does not have a where filter with partition column will not work.  
+
+For Integer based partitioning provide appropriate interval parameter depending on the distribution of the dataset to avoid data skew  
+
+For Time based partitioning, use yearly or monthly if the number of dates 
+
+ 
+
+ 
+
+ 
+
+Advantages : 
+
+Faster Query execution times  
+
+Reduced cost of query execution 
+
+Partitioning reduces the amount of the data scanned by partition pruning  
+
+Clustering – considerations 
+
+Clustering should always be implemented along with Partitioning to make best use of the performance and cost saving  
+
+1. There can be only 4 clustering columns at max for a table  
+
+2. Choose the columns for clustering based on increasing order of cardinality as it impacts the sort order of columns  
+
+3. Choose to perform clustering on partitioned table only if the per partition size in the table is above 1 GB  
+
+4. Choose to perform clustering over partitioning on the tables where there are no suitable columns for partitions or the partition colums are skewed  
+
+5. Make sure the string columns used in clustering are not text based large objects , limitation of google is 1024 characters, recommendation to use columns with deterministic values and patterns  
+
+6. Apply the filter on the query as per the sort order defined for the clustering columns  
+
+7. Do not make use of clustered columns in the comparison filter in where clause Eg: • Clustered_col_1 = col_2, it should be constant value clustered_col_1 = “ABC” 
+
+ 
+
+ 
+
+ 
+
+Avoid multiple evaluations of the same Common Table Expressions (CTEs) 
+
+Use procedural language, variables, temporary tables, and automatically expiring tables to persist calculations and use them later in the query. 
+
+When your query contains Common Table Expressions that are used in multiple places in the query, they are evaluated each time they are referenced. This may increase internal query complexity and resource consumption. 
+
+You can store the result of a CTE in a scalar variable or a temporary table depending on the data that the CTE returns. You are not charged for storage of temporary tables. 
+
+Optimizing persistent disk performance 
+
+Unattached persistent disks would be one of the Google cloud storage best practices that can save a lot from your monthly bill. 
+
+ 
+
+Step 1: Open the list of projects from Google Cloud Engine. 
+
+Step 2: Find out the disks which are unattached to any instance 
+
+Step 3: Get the label key/value of unattached disks. 
+
+Step 4: Finally, execute the “delete” command on the selected disk. 
+
+ 
+
+These disks can only cost you money if these are still running even the engine is inactive. So, you need to continuously check for unattached disks in your GCP infrastructure to avoid unwanted expenses. 
+
+Logging and Versioning of cloud storage buckets 
+
+It helps to maintain, access and change logs for storage buckets, it can be very helpful during the inspection of security incidents. Versioning enables you to keep multiple variants of an object in the same storage bucket. 
+
+Stack driver logging and monitoring 
+
+Enabling the effective configuration of Stack driver logging and monitoring is one of the best practices of the Google Cloud Platform to monitor the uptime and performance of GCP projects and their resources. 
+
+Limiting the use of Cloud Identity and Access Management (IAM) Primitive Roles 
+
+It is recommended to grant predefined roles to identities whenever possible, since they provide more granular access as compared to primitive roles. The use of primitive roles should be limited to few cases as given below. 
+
+In case of projects working under small teams. 
+
+When there is a requirement of changing the permissions of a project by a member. 
+
+When there is a requirement to allow broader permissions for a project. 
+
+When the platform won’t provide a role that includes desired permissions. 
+
+Delete the persistent disk snapshot 
+
+The persistent disk snapshots are created for the purpose of backup of disks in case of data loss. But it will cost a lot of money if you haven’t properly monitored these snapshots. Effective management of these snapshots can be one of GCP best practices which can help you work effortlessly. You can set a standard in your organization for how many of these snapshots should be retained per Compute Engine Virtual Machine. Also, note that recovery can occur from the most recent snapshots most of the time. 
+
+Use Checklists 
+
+Readability: Are there any redundant comments in the code? 
+
+Security: Does the code expose the system to a cyber attack? 
+
+Test coverage: Is there a need to test more cases? 
+
+Architecture: Does the code use encapsulation and modularization to achieve separation of concerns? 
+
+Reusability: Does the code use reusable components, functions, and services? 
+
+IN v/s EXISTS 
+
+IN operator is more costly than EXISTS in terms of scans especially when the result of the subquery is a large dataset. So, we should try to use EXISTS rather than using IN for fetching results with a subquery. 
+
+Avoiding Loops 
+
+The loops can be avoided because it requires running same query many times. Instead, it can be good to opt for bulk insert and updates. 
+
+ Inner join and where clause 
+
+We should use inner join for merging two or more tables rather than using the WHERE clause. WHERE clause creates the CROSS join/ CARTESIAN product for merging tables. CARTESIAN product of two tables takes a lot of time. 
+
+Indexing 
+
+An index is a data structure used to provide quick access to the table based on a search key. It helps in minimizing the disk access to fetch the rows from the database. 
+
+Avoid repeatedly transforming data through SQL queries 
+
+If you are using SQL to perform ETL operations, avoid situations where you are repeatedly transforming the same data. 
+
+Prune partitioned queries 
+
+When querying a partitioned table to filter with partitions on partitioned tables, use the following columns: 
+
+For ingestion-time partitioned tables, use the pseudo-column _PARTITIONTIME 
+
+For partitioned tables such as the time-unit column-based and integer-range, use the partitioning column. 
+
+For time-unit partitioned tables, filtering the data with _PARTITIONTIME or partitioning column lets you specify a date or range of dates. For example, the following WHERE clause uses the _PARTITIONTIME pseudo column to specify partitions between January 1, 2016 and January 31, 2016: 
+
+WHERE _PARTITIONTIME 
+
+BETWEEN TIMESTAMP("20160101") 
+
+AND TIMESTAMP("20160131") 
+
+The query processes data only in the partitions that are indicated by the date range. Filtering your partitions improves query performance and reduces costs. 
+
+Use INT64 data types in joins to reduce cost and improve comparison performance 
+
+If your use case supports it, use INT64 data types in joins instead of STRING data types. 
+
+Big Query does not index primary keys like traditional databases, so the wider the join column is, the longer the comparison takes. Therefore, using INT64 data types in joins is cheaper and more efficient than using STRING data types. 
