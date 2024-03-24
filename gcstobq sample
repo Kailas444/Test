@@ -1,0 +1,91 @@
+Bigquery Notes
+
+Sunday, February 19, 2023
+11:50 PM
+
+1.Fully managed data warehouse
+   no-ops
+  petabytes-scale
+2.Reliable
+   backed by google data centers
+3.Economical
+   pay only for the processing and storage you use
+4.Secure
+   Role ACLs, data encrypted in transport and at rest
+5.Auditable
+   Every transaction logged and quarriable
+6.Scalable
+   Highly parallel processing model means fast queries
+7.Flexible
+   Mashup data across multiple datasets
+8.Easy to use
+   familiar SQL no indexes open standards
+	9. Public dataset
+	Explore and practice with real datasets
+	
+	
+	
+	
+	    p = requests.get(url,headers=headers2)
+	    print(p.text)
+	    print('step1')
+	    #text_data=p.text
+	    df = pd.read_csv(StringIO(p.text))
+	    # df.to_csv('output.csv', index=False)
+	    storage_client = storage.Client()
+	    print('step2')
+	    bucket = storage_client.get_bucket('prd-65343-datalake-bd-196865-entsrcdtes-prodtest-raw')
+	    print('step3')
+	    output_file=f'gs://prd-65343-datalake-bd-196865-entsrcdtes-prodtest-raw/output.csv'
+	    print('step4')
+	    df.to_csv(output_file,index=False)
+	    print('step5')
+	df=pd.read_csv(StringIO(p.text))
+	storage_client=storage.cleint()
+	bigqery_clinet=Bigquery.client()
+	 bucket=Storage_client.get_bucket('bucket_name')
+	 output_file=f"gs:/{bucket_name}/'{filename}"
+	df.to_csv(output_file,index=false)
+	
+	
+	
+	
+	
+	# for i in range(5):
+	#     if i == 3:
+	#         pass  # Do nothing when i is 3
+	#     else:
+	#         print(i)
+	for i in range(5):
+	    if i == 2:
+	        continue  # Skip the rest of the code for i == 2
+	    print(i)
+	from google.cloud import storage, bigquery
+	def process_gcs_to_bq(event, context):
+	    """Cloud Function triggered by GCS events."""
+	    file_name = event['name']
+	    bucket_name = event['bucket']
+	    # Configure BigQuery settings
+	    project_id = 'your-project-id'
+	    dataset_id = 'your-dataset-id'
+	    table_id = 'your-table-id'
+	    # Initialize the GCS and BigQuery clients
+	    storage_client = storage.Client()
+	    bigquery_client = bigquery.Client()
+	    # Define GCS and BigQuery URIs
+	    gcs_uri = f'gs://{bucket_name}/{file_name}'
+	    bq_uri = f'{project_id}.{dataset_id}.{table_id}'
+	    # Load data from GCS to BigQuery\
+	    jib_config=bigquery.LoadJobconfig(
+	        autodetect=true,
+	        bigquery.sourceformat=newline_delimeter_json)
+	    )
+	    job_config = bigquery.LoadJobConfig(
+	        autodetect=True, source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON
+	    )
+	    load_job = bigquery_client.load_table_from_uri(gcs_uri, bq_uri, job_config=job_config)
+	    load_job=bigquery_client.load_table_from_url(gcs_uri,bq_url,job_config=job_config)
+	    load_job,result()
+	    # Wait for the job to complete
+	    load_job.result()
+	    print(f'Data loaded from {gcs_uri} to BigQuery table {bq_uri}.')
